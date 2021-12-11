@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\ViewModels\Nab;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -40,4 +41,18 @@ class User extends Authenticatable
     protected $casts = [
         'unit' => 'double',
     ];
+
+    public function getBalanceAttribute(): float
+    {
+        $nab = Nab::latest('date')->first();
+        if ($nab) {
+            $nab = $nab->nab;
+        } else {
+            $nab = 1;
+        }
+
+        $balance = round($this->unit * $nab, 2, PHP_ROUND_HALF_DOWN);
+
+        return $balance;
+    }
 }

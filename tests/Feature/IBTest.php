@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use App\Models\ViewModels\Nab;
 use Illuminate\Testing\Fluent\AssertableJson;
 
@@ -28,4 +29,26 @@ it('can update nab using update total balance api', function () {
             $json->has('data.nab')
                 ->etc()
         );
+});
+
+it('can top up user', function () {
+    $user = User::factory()->create([
+        'unit' => 0,
+    ]);
+
+    post(route('ib.topup'), [
+        'user_id' => $user->id,
+        'amount_rupiah' => 10000
+    ])->assertStatus(200);
+});
+
+it('can withdraw user', function () {
+    $user = User::factory()->create([
+        'unit' => 100000,
+    ]);
+
+    post(route('ib.topup'), [
+        'user_id' => $user->id,
+        'amount_rupiah' => 10000
+    ])->assertStatus(200);
 });
