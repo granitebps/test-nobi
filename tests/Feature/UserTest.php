@@ -6,16 +6,19 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 use function Pest\Laravel\post;
 
-it('can store user', function () {
-    $user = User::factory()->make()->toArray();
+it('can store user', function (User $user) {
+    $newUser = User::factory()->make()->toArray();
 
-    expect(User::count())->toEqual(0);
+    expect(User::count())->toEqual(1);
 
     post(route('user.store'), [])
         ->assertStatus(422);
 
-    $user['password'] = 'password';
-    post(route('user.store'), $user)
+    post(route('user.store'), $user->toArray())
+        ->assertStatus(422);
+
+    $newUser['password'] = 'password';
+    post(route('user.store'), $newUser)
         ->assertStatus(200)
         ->assertJson(
             fn (AssertableJson $json) =>
@@ -24,5 +27,5 @@ it('can store user', function () {
         );
 
     expect(PersonalAccessToken::count())->toEqual(1);
-    expect(User::count())->toEqual(1);
-});
+    expect(User::count())->toEqual(2);
+})->with('user');
