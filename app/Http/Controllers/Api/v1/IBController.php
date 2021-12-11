@@ -77,6 +77,44 @@ class IBController extends Controller
         return Helpers::successResponse('Topup Success', $data);
     }
 
+    public function withdraw(Request $request): JsonResponse
+    {
+        $input = $request->validate([
+            'user_id' => 'required|integer|exists:users,id',
+            'amount_rupiah' => 'required|integer|min:1'
+        ]);
+
+        /** @var User $user */
+        $user = User::find($input['user_id']);
+
+        event(new Transaction(
+            $input['user_id'],
+            $input['amount_rupiah'],
+            'withdraw',
+            now()->timestamp
+        ));
+
+        $transaction = ViewModelsTransaction::where('user_id', $input['user_id'])
+            ->latest('date')
+            ->first();
+
+        if ($transaction) {
+            $unit = $transaction->unit;
+        } else {
+            $unit = 0;
+        }
+
+        $user->refresh();
+
+        $data = [
+            'nilai_unit_setelah_withdraw' => $unit,
+            'nilai_unit_total' => $user->unit,
+            'saldo_rupiah_total' => $user->balance
+        ];
+
+        return Helpers::successResponse('Topup Success', $data);
+    }
+
     public function member(Request $request): JsonResponse
     {
         if ($request->has('limit') && $request->limit > 0) {

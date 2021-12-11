@@ -54,7 +54,7 @@ it('can withdraw user', function (Nab $nab) {
         'unit' => 100000,
     ]);
 
-    $response = post(route('ib.topup'), [
+    $response = post(route('ib.withdraw'), [
         'user_id' => $user->id,
         'amount_rupiah' => 10000
     ])->assertStatus(200)
@@ -65,7 +65,7 @@ it('can withdraw user', function (Nab $nab) {
     $unit = round(10000 / $nab->nab, 4, PHP_ROUND_HALF_DOWN);
 
     expect($response['data'])->toMatchArray([
-        'nilai_unit_hasil_topup' => $unit,
+        'nilai_unit_setelah_withdraw' => $unit,
         'nilai_unit_total' => $user->unit,
         'saldo_rupiah_total' => $user->balance
     ]);
@@ -92,5 +92,5 @@ it('can get list of member', function () {
             $json->hasAll('data.users', 'data.nab')
                 ->has('data.users', 2)
                 ->etc()
-        )->dd();
+        );
 })->with('fiveUsers');
