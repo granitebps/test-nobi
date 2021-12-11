@@ -70,3 +70,27 @@ it('can withdraw user', function (Nab $nab) {
         'saldo_rupiah_total' => $user->balance
     ]);
 })->with('nab');
+
+it('can get list of member', function () {
+    $all = get(route('ib.member'))
+        ->assertStatus(200)
+        ->assertJson(
+            fn (AssertableJson $json) =>
+            $json->hasAll('data.users', 'data.nab')
+                ->has('data.users', 5)
+                ->etc()
+        )->json();
+
+    expect($all['data']['users'][1])->toBeGreaterThan($all['data']['users'][0]);
+
+    get(route('ib.member', [
+        'limit' => 2
+    ]))
+        ->assertStatus(200)
+        ->assertJson(
+            fn (AssertableJson $json) =>
+            $json->hasAll('data.users', 'data.nab')
+                ->has('data.users', 2)
+                ->etc()
+        )->dd();
+})->with('fiveUsers');

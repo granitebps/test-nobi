@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Helpers;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Models\ViewModels\Nab;
 use App\Models\ViewModels\Transaction as ViewModelsTransaction;
@@ -74,5 +75,29 @@ class IBController extends Controller
         ];
 
         return Helpers::successResponse('Topup Success', $data);
+    }
+
+    public function member(Request $request): JsonResponse
+    {
+        if ($request->has('limit') && $request->limit > 0) {
+            $limit = $request->limit;
+        } else {
+            $limit = 20;
+        }
+        $users = User::orderBy('id')->paginate($limit);
+
+        $nab = Nab::latest('date')->first();
+        if ($nab) {
+            $nab = $nab->nab;
+        } else {
+            $nab = 1;
+        }
+
+        $data = [
+            'users' => UserResource::collection($users),
+            'nab' => $nab
+        ];
+
+        return Helpers::successResponse('Get Member Success', $data);
     }
 }
