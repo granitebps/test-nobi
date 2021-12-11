@@ -20,3 +20,4 @@ When user invest in a product. User balance will converted to unit. Unit that us
 - Run ```php artisan migrate```
 - Run ```php artisan test``` to test it using Pest
 - Import Postman Collection from ```NOBI.postman_collection.json``` file
+- You also can import database from ```database.sql```
