@@ -1,0 +1,237 @@
+{
+	"info": {
+		"_postman_id": "a38afb71-3f1a-46dd-b9df-628fe37b0241",
+		"name": "NOBI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "JSON Type",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": "JSON Type",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Granite Bagas\",\n    \"username\": \"granitebps\",\n    \"password\": \"okeoce\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/user/add",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Total Balance",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "JSON Type",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": "JSON Type",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"current_balance\": 50000\n}"
+				},
+				"url": {
+					"raw": "{{url}}/ib/updateTotalBalance",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"ib",
+						"updateTotalBalance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List NAB",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "JSON Type",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": "JSON Type",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/ib/listNAB",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"ib",
+						"listNAB"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Top Up",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "JSON Type",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": "JSON Type",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_id\": 1,\n    \"amount_rupiah\": 50000\n}"
+				},
+				"url": {
+					"raw": "{{url}}/ib/topup",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"ib",
+						"topup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Withdraw",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "JSON Type",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": "JSON Type",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_id\": 1,\n    \"amount_rupiah\": 1000000\n}"
+				},
+				"url": {
+					"raw": "{{url}}/ib/withdraw",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"ib",
+						"withdraw"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Member",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "JSON Type",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": "JSON Type",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/ib/member",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"ib",
+						"member"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:8000/api/v1"
+		}
+	]
+}
