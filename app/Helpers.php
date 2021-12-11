@@ -1,5 +1,7 @@
 <?php
 
+namespace App;
+
 use Illuminate\Http\JsonResponse;
 
 class Helpers
