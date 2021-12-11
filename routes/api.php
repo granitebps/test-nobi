@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\v1\AuthController;
+use App\Http\Controllers\Api\v1\IBController;
 use App\Http\Controllers\Api\v1\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,4 +22,8 @@ Route::group([
     Route::post('login', [AuthController::class, 'login'])->name('auth.login');
 
     Route::post('user/add', [UserController::class, 'store'])->name('user.store');
+
+    Route::group(['prefix' => 'ib'], function () {
+        Route::post('updateTotalBalance', [IBController::class, 'updateTotalBalance'])->name('ib.updateTotalBalance');
+    });
 });
