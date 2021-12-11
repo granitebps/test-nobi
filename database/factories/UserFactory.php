@@ -15,8 +15,10 @@ class UserFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'usernanme' => $this->faker->userName(),
+            'username' => $this->faker->userName(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'unit' => $this->faker->randomFloat(4, 0, 10000),
+            'balance' => $this->faker->randomFloat(2, 0, 1000000)
         ];
     }
 }
