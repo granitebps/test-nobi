@@ -21,5 +21,5 @@ Route::group([
 ], function () {
     Route::post('login', [AuthController::class, 'login'])->name('auth.login');
 
-    Route::post('users', [UserController::class, 'store'])->name('user.store');
+    Route::post('user/add', [UserController::class, 'store'])->name('user.store');
 });
