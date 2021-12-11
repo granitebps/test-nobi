@@ -31,24 +31,42 @@ it('can update nab using update total balance api', function () {
         );
 });
 
-it('can top up user', function () {
-    $user = User::factory()->create([
-        'unit' => 0,
-    ]);
-
-    post(route('ib.topup'), [
+it('can top up user', function (User $user, Nab $nab) {
+    $response = post(route('ib.topup'), [
         'user_id' => $user->id,
         'amount_rupiah' => 10000
-    ])->assertStatus(200);
-});
+    ])->assertStatus(200)
+        ->json();
 
-it('can withdraw user', function () {
+    $user->refresh();
+
+    $unit = round(10000 / $nab->nab, 4, PHP_ROUND_HALF_DOWN);
+
+    expect($response['data'])->toMatchArray([
+        'nilai_unit_hasil_topup' => $unit,
+        'nilai_unit_total' => $user->unit,
+        'saldo_rupiah_total' => $user->balance
+    ]);
+})->with('user', 'nab');
+
+it('can withdraw user', function (Nab $nab) {
     $user = User::factory()->create([
         'unit' => 100000,
     ]);
 
-    post(route('ib.topup'), [
+    $response = post(route('ib.topup'), [
         'user_id' => $user->id,
         'amount_rupiah' => 10000
-    ])->assertStatus(200);
-});
+    ])->assertStatus(200)
+        ->json();
+
+    $user->refresh();
+
+    $unit = round(10000 / $nab->nab, 4, PHP_ROUND_HALF_DOWN);
+
+    expect($response['data'])->toMatchArray([
+        'nilai_unit_hasil_topup' => $unit,
+        'nilai_unit_total' => $user->unit,
+        'saldo_rupiah_total' => $user->balance
+    ]);
+})->with('nab');
