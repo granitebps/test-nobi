@@ -39,7 +39,7 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'unit' => 'integer',
-        'balance' => 'integer',
+        'unit' => 'double',
+        'balance' => 'double',
     ];
 }

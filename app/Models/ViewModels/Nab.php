@@ -20,6 +20,15 @@ class Nab extends Model
     public $timestamps = false;
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'nab' => 'double',
+    ];
+
+    /**
      * Create a new factory instance for the model.
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
