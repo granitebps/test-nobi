@@ -19,7 +19,6 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('password');
             $table->unsignedDouble('unit')->default(0);
-            $table->unsignedDouble('balance')->default(0);
             $table->timestamps();
         });
     }

@@ -21,7 +21,6 @@ class User extends Authenticatable
         'username',
         'password',
         'unit',
-        'balance'
     ];
 
     /**
@@ -40,6 +39,5 @@ class User extends Authenticatable
      */
     protected $casts = [
         'unit' => 'double',
-        'balance' => 'double',
     ];
 }
