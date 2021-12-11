@@ -8,7 +8,7 @@ class Helpers
 {
     public static function successResponse(
         string $message = '',
-        array $result = [],
+        mixed $result = [],
         int $code = 200
     ): JsonResponse {
         return response()->json([
