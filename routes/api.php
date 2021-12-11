@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\v1\AuthController;
+use App\Http\Controllers\Api\v1\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'prefix' => 'v1'
 ], function () {
-    Route::post('register', [AuthController::class, 'register'])->name('auth:register');
-    Route::post('login', [AuthController::class, 'login'])->name('auth:login');
+    Route::post('login', [AuthController::class, 'login'])->name('auth.login');
+
+    Route::post('users', [UserController::class, 'store'])->name('user.store');
 });
