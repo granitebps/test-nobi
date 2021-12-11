@@ -24,6 +24,7 @@ Route::group([
     Route::post('user/add', [UserController::class, 'store'])->name('user.store');
 
     Route::group(['prefix' => 'ib'], function () {
+        Route::get('listNAB', [IBController::class, 'index'])->name('ib.listNAB');
         Route::post('updateTotalBalance', [IBController::class, 'updateTotalBalance'])->name('ib.updateTotalBalance');
     });
 });

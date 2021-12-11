@@ -11,6 +11,13 @@ use Illuminate\Http\Request;
 
 class IBController extends Controller
 {
+    public function index(): JsonResponse
+    {
+        $nabs = Nab::latest('date')->get();
+
+        return Helpers::successResponse('Get NAB Success', $nabs);
+    }
+
     public function updateTotalBalance(Request $request): JsonResponse
     {
         $input = $request->validate([
@@ -25,6 +32,6 @@ class IBController extends Controller
 
         $nab = Nab::latest('date')->first();
 
-        return Helpers::successResponse('Update Total Balance Success', $nab->toArray());
+        return Helpers::successResponse('Update Total Balance Success', $nab);
     }
 }
