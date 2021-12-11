@@ -10,6 +10,15 @@ class Nab extends Model
 {
     use HasFactory;
 
+    protected $table = 'vm_nabs';
+
+    protected $fillable = [
+        'nab',
+        'date',
+    ];
+
+    public $timestamps = false;
+
     /**
      * Create a new factory instance for the model.
      *
