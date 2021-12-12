@@ -24,10 +24,13 @@ Route::group([
     Route::post('user/add', [UserController::class, 'store'])->name('user.store');
 
     Route::group(['prefix' => 'ib'], function () {
+        Route::group(['middleware' => 'auth:sanctum'], function () {
+            Route::post('topup', [IBController::class, 'topup'])->name('ib.topup');
+            Route::post('withdraw', [IBController::class, 'withdraw'])->name('ib.withdraw');
+        });
+
         Route::get('listNAB', [IBController::class, 'index'])->name('ib.listNAB');
         Route::post('updateTotalBalance', [IBController::class, 'updateTotalBalance'])->name('ib.updateTotalBalance');
-        Route::post('topup', [IBController::class, 'topup'])->name('ib.topup');
-        Route::post('withdraw', [IBController::class, 'withdraw'])->name('ib.withdraw');
         Route::get('member', [IBController::class, 'member'])->name('ib.member');
     });
 });
