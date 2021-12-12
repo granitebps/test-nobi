@@ -8,7 +8,12 @@ use function Pest\Laravel\getJson;
 use function Pest\Laravel\postJson;
 
 it('can get list nab from latest', function () {
-    $response = getJson(route('ib.listNAB'))
+    getJson(route('ib.listNAB'))
+        ->assertStatus(403);
+
+    $response = getJson(route('ib.listNAB'), [
+        'API-KEY' => config('services.api-key')
+    ])
         ->assertStatus(200)
         ->json();
     $firstData = $response['data'][0];
@@ -17,11 +22,18 @@ it('can get list nab from latest', function () {
 })->with('fiveNab');
 
 it('can update nab using update total balance api', function () {
-    postJson(route('ib.updateTotalBalance'), [])
+    postJson(route('ib.updateTotalBalance'))
+        ->assertStatus(403);
+
+    postJson(route('ib.updateTotalBalance'), [], [
+        'API-KEY' => config('services.api-key')
+    ])
         ->assertStatus(422);
 
     postJson(route('ib.updateTotalBalance'), [
         'current_balance' => 100000
+    ], [
+        'API-KEY' => config('services.api-key')
     ])
         ->assertStatus(200)
         ->assertJson(
@@ -106,7 +118,12 @@ it('can withdraw user', function (Nab $nab) {
 })->with('nab');
 
 it('can get list of member', function () {
-    $all = getJson(route('ib.member'))
+    getJson(route('ib.member'))
+        ->assertStatus(403);
+
+    $all = getJson(route('ib.member'), [
+        'API-KEY' => config('services.api-key')
+    ])
         ->assertStatus(200)
         ->assertJson(
             fn (AssertableJson $json) =>
@@ -119,7 +136,13 @@ it('can get list of member', function () {
 
     getJson(route('ib.member', [
         'limit' => 2
-    ]))
+    ]))->assertStatus(403);
+
+    getJson(route('ib.member', [
+        'limit' => 2
+    ]), [
+        'API-KEY' => config('services.api-key')
+    ])
         ->assertStatus(200)
         ->assertJson(
             fn (AssertableJson $json) =>

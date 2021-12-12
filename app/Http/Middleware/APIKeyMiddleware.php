@@ -18,10 +18,10 @@ class APIKeyMiddleware
     public function handle(Request $request, Closure $next)
     {
         $api_key = config('services.api-key');
-        if (!$request->hasHeader('services.api-key')) {
+        if (!$request->hasHeader('API-KEY')) {
             return Helpers::errorResponse('Forbidden', 403);
         }
-        if ($api_key !== $request->header('services.api-key')) {
+        if ($api_key !== $request->header('API-KEY')) {
             return Helpers::errorResponse('Forbidden', 403);
         }
         return $next($request);
