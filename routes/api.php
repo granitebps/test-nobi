@@ -29,8 +29,10 @@ Route::group([
             Route::post('withdraw', [IBController::class, 'withdraw'])->name('ib.withdraw');
         });
 
-        Route::get('listNAB', [IBController::class, 'index'])->name('ib.listNAB');
-        Route::post('updateTotalBalance', [IBController::class, 'updateTotalBalance'])->name('ib.updateTotalBalance');
-        Route::get('member', [IBController::class, 'member'])->name('ib.member');
+        Route::group(['middleware' => 'api.key'], function () {
+            Route::get('listNAB', [IBController::class, 'index'])->name('ib.listNAB');
+            Route::post('updateTotalBalance', [IBController::class, 'updateTotalBalance'])->name('ib.updateTotalBalance');
+            Route::get('member', [IBController::class, 'member'])->name('ib.member');
+        });
     });
 });
