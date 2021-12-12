@@ -4,23 +4,23 @@ use App\Models\User;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\PersonalAccessToken;
 
-use function Pest\Laravel\post;
+use function Pest\Laravel\postJson;
 
 it('can login', function (User $user) {
     expect(User::count())->toEqual(1);
 
-    post(route('auth.login'), [
+    postJson(route('auth.login'), [
         'username' => 'a'
     ])
         ->assertStatus(422);
 
-    post(route('auth.login'), [
+    postJson(route('auth.login'), [
         'username' => $user->username,
         'password' => 'randompass'
     ])
         ->assertStatus(400);
 
-    post(route('auth.login'), [
+    postJson(route('auth.login'), [
         'username' => $user->username,
         'password' => 'password'
     ])

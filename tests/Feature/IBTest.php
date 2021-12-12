@@ -4,11 +4,11 @@ use App\Models\User;
 use App\Models\ViewModels\Nab;
 use Illuminate\Testing\Fluent\AssertableJson;
 
-use function Pest\Laravel\get;
-use function Pest\Laravel\post;
+use function Pest\Laravel\getJson;
+use function Pest\Laravel\postJson;
 
 it('can get list nab from latest', function () {
-    $response = get(route('ib.listNAB'))
+    $response = getJson(route('ib.listNAB'))
         ->assertStatus(200)
         ->json();
     $firstData = $response['data'][0];
@@ -17,10 +17,10 @@ it('can get list nab from latest', function () {
 })->with('fiveNab');
 
 it('can update nab using update total balance api', function () {
-    post(route('ib.updateTotalBalance'), [])
+    postJson(route('ib.updateTotalBalance'), [])
         ->assertStatus(422);
 
-    post(route('ib.updateTotalBalance'), [
+    postJson(route('ib.updateTotalBalance'), [
         'current_balance' => 100000
     ])
         ->assertStatus(200)
@@ -32,7 +32,7 @@ it('can update nab using update total balance api', function () {
 });
 
 it('can top up user', function (User $user, Nab $nab) {
-    $response = post(route('ib.topup'), [
+    $response = postJson(route('ib.topup'), [
         'user_id' => $user->id,
         'amount_rupiah' => 10000
     ])->assertStatus(200)
@@ -54,7 +54,7 @@ it('can withdraw user', function (Nab $nab) {
         'unit' => 100000,
     ]);
 
-    $response = post(route('ib.withdraw'), [
+    $response = postJson(route('ib.withdraw'), [
         'user_id' => $user->id,
         'amount_rupiah' => 10000
     ])->assertStatus(200)
@@ -72,7 +72,7 @@ it('can withdraw user', function (Nab $nab) {
 })->with('nab');
 
 it('can get list of member', function () {
-    $all = get(route('ib.member'))
+    $all = getJson(route('ib.member'))
         ->assertStatus(200)
         ->assertJson(
             fn (AssertableJson $json) =>
@@ -83,7 +83,7 @@ it('can get list of member', function () {
 
     expect($all['data']['users'][1])->toBeGreaterThan($all['data']['users'][0]);
 
-    get(route('ib.member', [
+    getJson(route('ib.member', [
         'limit' => 2
     ]))
         ->assertStatus(200)
