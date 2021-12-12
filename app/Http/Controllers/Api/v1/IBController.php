@@ -46,6 +46,10 @@ class IBController extends Controller
             'amount_rupiah' => 'required|integer|min:1'
         ]);
 
+        if ($input['user_id'] != auth()->id()) {
+            return Helpers::errorResponse('Forbidden', 403);
+        }
+
         /** @var User $user */
         $user = User::find($input['user_id']);
 
@@ -83,6 +87,10 @@ class IBController extends Controller
             'user_id' => 'required|integer|exists:users,id',
             'amount_rupiah' => 'required|integer|min:1'
         ]);
+
+        if ($input['user_id'] != auth()->id()) {
+            return Helpers::errorResponse('Forbidden', 403);
+        }
 
         /** @var User $user */
         $user = User::find($input['user_id']);

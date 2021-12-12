@@ -32,9 +32,26 @@ it('can update nab using update total balance api', function () {
 });
 
 it('can top up user', function (User $user, Nab $nab) {
+    $token = $user->createToken(config('app.name'))->plainTextToken;
+    $otherUser = User::factory()->create();
+
+    postJson(route('ib.topup'), [
+        'user_id' => $user->id,
+        'amount_rupiah' => 10000
+    ])->assertStatus(401);
+
+    postJson(route('ib.topup'), [
+        'user_id' => $otherUser->id,
+        'amount_rupiah' => 10000
+    ], [
+        'Authorization' => 'Bearer ' . $token
+    ])->assertStatus(403);
+
     $response = postJson(route('ib.topup'), [
         'user_id' => $user->id,
         'amount_rupiah' => 10000
+    ], [
+        'Authorization' => 'Bearer ' . $token
     ])->assertStatus(200)
         ->json();
 
@@ -53,10 +70,27 @@ it('can withdraw user', function (Nab $nab) {
     $user = User::factory()->create([
         'unit' => 100000,
     ]);
+    $otherUser = User::factory()->create();
+
+    $token = $user->createToken(config('app.name'))->plainTextToken;
+
+    postJson(route('ib.withdraw'), [
+        'user_id' => $user->id,
+        'amount_rupiah' => 10000
+    ])->assertStatus(401);
+
+    postJson(route('ib.withdraw'), [
+        'user_id' => $otherUser->id,
+        'amount_rupiah' => 10000
+    ], [
+        'Authorization' => 'Bearer ' . $token
+    ])->assertStatus(403);
 
     $response = postJson(route('ib.withdraw'), [
         'user_id' => $user->id,
         'amount_rupiah' => 10000
+    ], [
+        'Authorization' => 'Bearer ' . $token
     ])->assertStatus(200)
         ->json();
 
