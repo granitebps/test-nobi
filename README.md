@@ -15,9 +15,13 @@ When user invest in a product. User balance will converted to unit. Unit that us
 - Go to repo directory
 - Run ```composer install```
 - Run ```cp .env.example .env```
+- Update ```API_KEY``` value
 - Run ```php artisan key:generate```
 - Edit database credentials in .env file
 - Run ```php artisan migrate```
 - Run ```php artisan test``` to test it using Pest
 - Import Postman Collection from ```NOBI.postman_collection.json``` file
 - You also can import database from ```database.sql```
+
+## NOTE
+For extra security, I added authentication to this app. So add user endpoint will return token to be used in topup and withdraw endpoint. I also added login endpoint. For others endpoint, I added API Key middleware. So we need to add ```API-KEY``` to the header.
